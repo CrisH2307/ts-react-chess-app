@@ -1,0 +1,59 @@
+.chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 100px);
+  grid-template-rows: repeat(8, 100px);
+  width: 801px;
+  height: 801px;
+}
+
+.chessboard .tile {
+  width: 100px;
+  height: 100px;
+}
+
+.chessboard .black-tile {
+  background-color: #000000b4;
+}
+
+.chessboard .white-tile {
+  background-color: #ebecd0;
+}
+
+#pawn-promotion.hidden {
+  display: none;
+}
+
+#pawn-promotion {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+#pawn-promotion > .modal {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: calc(50% - 400px);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 300px;
+  width: 800px;
+  background-color: rgba(127, 127, 127, 0.8);
+}
+#pawn-promotion > .modal > img {
+  height: 100px;
+  padding: 20px;
+  border-radius: 50%;
+}
+
+#pawn-promotion > .modal > img:hover {
+  background-color: rgba(225, 225, 225, 0.3);
+  cursor: pointer;
+}
+
+h1 {
+  color: wheat;
+  padding: 20px;
+}

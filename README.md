@@ -1,3 +1,11 @@
+# Introduction of the Project
+
+Made by: Cris Huynh <br>
+Programming Languages: JavaScript, HTML, React, TypeScript <br>
+Date of Start: July 3rd, 2023 <br>
+Date of Finish: Stay tuned <br>
+Description: This project is based what I have been studying while I'm studying at Seneca College. Mostly my ideas came from Object-Oriented Programming in C++ and I remade it in JavaScripts
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

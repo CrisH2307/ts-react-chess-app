@@ -1,0 +1,52 @@
+.tile {
+  display: grid;
+  place-content: center;
+  width: 100px;
+  height: 100px;
+}
+
+.tile .chess-piece {
+  width: 90px;
+  height: 90px;
+  background-image: svg no-repeat;
+  background-position: center;
+  background-size: 80px;
+}
+
+.tile .chess-piece:hover {
+  cursor: grab;
+}
+
+.tile .chess-piece:active {
+  cursor: grabbing;
+}
+
+.black-tile {
+  background-color: #000000b4;
+}
+.white-tile {
+  background-color: #ebecd0;
+}
+
+.tile img {
+  width: 80px;
+}
+
+/* using not to prevent the dots possible moves lay on the chess has been occpupied */
+.tile-highlight:not(.chess-piece-tile)::before {
+  content: " ";
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/*highlight the chesspiece that might gonna be eaten*/
+.tile-highlight.chess-piece-tile::before {
+  position: absolute;
+  content: " ";
+  width: 100px;
+  height: 100px;
+  border: 5px solid rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+}
