@@ -27,17 +27,25 @@ export default function Referee() {
   const modalReferee = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    updatePossibleMoves();
+    board.calculateAllMoves();
   }, []);
 
-  let updatePossibleMoves = () => {
-    board.calculateAllMoves();
-  };
-
   let playMove = (playedPiece: Piece, destination: Position): boolean => {
+    // If thje playing piece doesnt have any moves return
+    if (playedPiece.possibleMoves === undefined) return false;
+
+    //Preventing the inactive move
+    if (playedPiece.team === TeamType.OUR && board.totalTurns % 2 !== 1) {
+      return false;
+    }
+    if (playedPiece.team === TeamType.OPPONENT && board.totalTurns % 2 !== 0) {
+      return false;
+    }
     let playedMoveIsValid = false;
 
-    const validMove = isValidMove(playedPiece.position, destination, playedPiece.type, playedPiece.team);
+    const validMove = playedPiece.possibleMoves?.some((m) => m.samePosition(destination));
+
+    if (!validMove) return false;
 
     // Reduce funtion
     // Results => Array of results
@@ -47,8 +55,11 @@ export default function Referee() {
 
     // playMove modifies the board thus we need to call setBoard
     setBoard((previousBoard) => {
-      playedMoveIsValid = board.playMove(enPassantMove, validMove, playedPiece, destination);
-      return board.clone();
+      const clonedBoard = board.clone();
+      clonedBoard.totalTurns += 1;
+      //Playing the moves
+      playedMoveIsValid = clonedBoard.playMove(enPassantMove, validMove, playedPiece, destination);
+      return clonedBoard;
     });
 
     //Promoting a pawn
@@ -56,7 +67,11 @@ export default function Referee() {
 
     if (destination.y === promoted && playedPiece.isPawn) {
       modalReferee.current?.classList.remove("hidden");
-      setPromoted(playedPiece);
+      setPromoted((previousPromotedPawn) => {
+        const clonedPlayedPiece = playedPiece.clone();
+        clonedPlayedPiece.position = destination.clone();
+        return clonedPlayedPiece;
+      });
     }
 
     return playedMoveIsValid;
@@ -130,39 +145,21 @@ export default function Referee() {
       return;
     }
 
-    board.pieces = board.pieces.reduce((results, piece) => {
-      if (piece.samePiecePosition(promotionPawn)) {
-        piece.type = pieceType;
-        const teamType = piece.team === TeamType.OUR ? "w" : "b";
-        let pieceisChosen = "";
-
-        switch (pieceType) {
-          case ChessPieceType.ROOK: {
-            pieceisChosen = "rook";
-            break;
-          }
-          case ChessPieceType.BISHOP: {
-            pieceisChosen = "bishop";
-            break;
-          }
-          case ChessPieceType.KNIGHT: {
-            pieceisChosen = "knight";
-            break;
-          }
-          case ChessPieceType.QUEEN: {
-            pieceisChosen = "queen";
-            break;
-          }
+    setBoard((lastBoard) => {
+      const clonedBoard = board.clone();
+      clonedBoard.pieces = clonedBoard.pieces.reduce((results, piece) => {
+        if (piece.samePiecePosition(promotionPawn)) {
+          results.push(new Piece(piece.position.clone(), pieceType, piece.team));
+        } else {
+          results.push(piece);
         }
+        return results;
+      }, [] as Piece[]);
 
-        piece.image = `assets/images/${pieceisChosen}_${teamType}.png`;
-      }
-      results.push(piece);
-      return results;
-    }, [] as Piece[]);
+      clonedBoard.calculateAllMoves();
 
-    updatePossibleMoves();
-
+      return clonedBoard;
+    });
     modalReferee.current?.classList.add("hidden");
   };
 
@@ -172,6 +169,7 @@ export default function Referee() {
 
   return (
     <>
+      <p style={{ color: "dark", fontSize: "24px" }}>{board.totalTurns}</p>
       <div id="pawn-promotion" className="hidden" ref={modalReferee}>
         <div className="modal">
           <h1>Select one</h1>

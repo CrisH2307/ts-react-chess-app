@@ -4,6 +4,7 @@
   grid-template-rows: repeat(8, 100px);
   width: 801px;
   height: 801px;
+  background-color: rgb(182, 237, 146);
 }
 
 .chessboard .tile {
