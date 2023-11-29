@@ -1,9 +1,8 @@
 /*-----------------------------------------------------------------------------------------//
-
 Project Name: Chess App
 Name of Worker: Cris Huynh
 Date of Started: April 5th, 2023
-Language: ReactJS, JavaScript, HTML, CSS, TypeScript
+Language: ReactJS, JavaScript, HTML, CSS, TypeScript, Java
 
 Objective: Creating a complete chess game in TypeScipt involves multiple components and classes,
 including a board representation, pieces, rules and user interaction. This TypeScript code outlines
@@ -28,12 +27,23 @@ Journey:
 07/02: Created referee sources, making rules
 07/23: Made pawn attacked logics
 08/12: Made attack movement, illegal moves
-08/20:
-09/15:
-09/20:
+08/20: Finish En Passant Logic
+09/15: Making design
+09/20: Demo
 09/25: Create Knight movements, logics
 09/30: Create Bishop movements, logics
+10/03: Create Queen movements, logics
+10/07: Create King movements, logics
+10/13: Demo 2
+10/15: Recreate the file by using Inheriance, Polymorphism, Encapsulation
+10/29: Clone the Board, Tile and Component
+11/04: Creating Server
+11/09: Creatng the game Interface
+11/15: Making PawnPromotion logic
+11/20: Demo 3
+11/25: Checkmate, Winning Team
 11/28: Making castling logic
+11/29: Final Demo, Push
 ------------------------------------------------------------------------------------------*/
 
 import "./App.css";
