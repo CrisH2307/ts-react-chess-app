@@ -17,14 +17,14 @@
 }
 
 .chessboard .white-tile {
-  background-color: #ebecd0;
+  background-color: #d7d7a3;
 }
 
-#pawn-promotion.hidden {
+.modal.hidden {
   display: none;
 }
 
-#pawn-promotion {
+.modal {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -32,7 +32,7 @@
   left: 0px;
 }
 
-#pawn-promotion > .modal {
+.modal > .modal-body {
   position: absolute;
   top: calc(50% - 150px);
   left: calc(50% - 400px);
@@ -43,13 +43,13 @@
   width: 800px;
   background-color: rgba(127, 127, 127, 0.8);
 }
-#pawn-promotion > .modal > img {
+.modal > .modal-body > img {
   height: 100px;
   padding: 20px;
   border-radius: 50%;
 }
 
-#pawn-promotion > .modal > img:hover {
+.modal > .modal-body > img:hover {
   background-color: rgba(225, 225, 225, 0.3);
   cursor: pointer;
 }
@@ -57,4 +57,27 @@
 h1 {
   color: wheat;
   padding: 20px;
+}
+
+.modal > .modal-body > .checkmate-body {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.modal > .modal-body > .checkmate-body > span {
+  font-size: 32px;
+}
+
+.modal > .modal-body > .checkmate-body > button {
+  background-color: #779556;
+  color: white;
+  padding: 24px 48px;
+  font-size: 32px;
+  border: none;
+  border-radius: 9px;
+}
+
+.modal > .modal-body > .checkmate-body > button:hover {
+  cursor: pointer;
 }

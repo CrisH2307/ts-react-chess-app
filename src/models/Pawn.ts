@@ -7,8 +7,8 @@ import { Position } from "./Position";
 export class Pawn extends Piece {
   enPassant?: boolean;
 
-  constructor(posn: Position, team: TeamType, enPassant?: boolean, possibleMoves: Position[] = []) {
-    super(posn, ChessPieceType.PAWN, team, possibleMoves);
+  constructor(posn: Position, team: TeamType, hasMoved: boolean, enPassant?: boolean, possibleMoves: Position[] = []) {
+    super(posn, ChessPieceType.PAWN, team, hasMoved, possibleMoves);
     this.enPassant = enPassant;
   }
 
@@ -16,6 +16,7 @@ export class Pawn extends Piece {
     return new Pawn(
       this.position.clone(),
       this.team,
+      this.piecehasMoved,
       this.enPassant,
       this.possibleMoves?.map((that) => that.clone())
     );

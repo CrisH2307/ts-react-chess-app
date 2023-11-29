@@ -33,6 +33,7 @@ Journey:
 09/20:
 09/25: Create Knight movements, logics
 09/30: Create Bishop movements, logics
+11/28: Making castling logic
 ------------------------------------------------------------------------------------------*/
 
 import "./App.css";

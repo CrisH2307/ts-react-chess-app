@@ -13,14 +13,16 @@ export class Piece {
   type: ChessPieceType;
   team: TeamType;
   possibleMoves?: Position[];
+  piecehasMoved: boolean;
 
   // public:
-  constructor(posn: Position, type: ChessPieceType, team: TeamType, possibleMoves: Position[] = []) {
+  constructor(posn: Position, type: ChessPieceType, team: TeamType, moved: boolean, possibleMoves: Position[] = []) {
     this.image = `assets/images/${type}_${team}.png`;
     this.position = posn;
     this.type = type;
     this.team = team;
     this.possibleMoves = possibleMoves;
+    this.piecehasMoved = moved;
   }
 
   get isPawn(): boolean {
@@ -58,6 +60,7 @@ export class Piece {
       this.position.clone(),
       this.type,
       this.team,
+      this.piecehasMoved,
       this.possibleMoves?.map((that) => that.clone())
     );
   }

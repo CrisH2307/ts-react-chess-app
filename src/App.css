@@ -1,5 +1,5 @@
-.app
-{
+.app {
+  background-color: #22221f;
   display: grid;
   place-content: center;
   height: 100vh;

@@ -1,20 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { initialBoard } from "../../Constants";
 import Chessboard from "../Chessboard/Chessboard";
-import {
-  bishopMove,
-  getPossibleforBishopMoves,
-  getPossibleforKingMoves,
-  getPossibleforKnightMoves,
-  getPossibleforPawnMoves,
-  getPossibleforQueenMoves,
-  getPossibleforRookMoves,
-  kingMove,
-  knightMove,
-  pawnMove,
-  queenMove,
-  rookMove,
-} from "../../referee/rules";
+import { bishopMove, kingMove, knightMove, pawnMove, queenMove, rookMove } from "../../referee/rules";
 import { Piece } from "../../models/Piece";
 import { Position } from "../../models/Position";
 import { ChessPieceType, TeamType } from "../../Types";
@@ -22,13 +9,10 @@ import { Pawn } from "../../models/Pawn";
 import { Board } from "../../models/Board";
 
 export default function Referee() {
-  const [board, setBoard] = useState<Board>(initialBoard);
+  const [board, setBoard] = useState<Board>(initialBoard.clone());
   const [promotionPawn, setPromoted] = useState<Piece>();
   const modalReferee = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    board.calculateAllMoves();
-  }, []);
+  const checkmateModalReferee = useRef<HTMLDivElement>(null);
 
   let playMove = (playedPiece: Piece, destination: Position): boolean => {
     // If thje playing piece doesnt have any moves return
@@ -54,11 +38,16 @@ export default function Referee() {
     const enPassantMove = isPassantMove(playedPiece.position, destination, playedPiece.type, playedPiece.team);
 
     // playMove modifies the board thus we need to call setBoard
-    setBoard((previousBoard) => {
+    setBoard(() => {
       const clonedBoard = board.clone();
       clonedBoard.totalTurns += 1;
       //Playing the moves
       playedMoveIsValid = clonedBoard.playMove(enPassantMove, validMove, playedPiece, destination);
+
+      if (clonedBoard.winningTeam !== undefined) {
+        checkmateModalReferee.current?.classList.remove("hidden");
+      }
+
       return clonedBoard;
     });
 
@@ -145,11 +134,11 @@ export default function Referee() {
       return;
     }
 
-    setBoard((lastBoard) => {
+    setBoard((previousBoard) => {
       const clonedBoard = board.clone();
       clonedBoard.pieces = clonedBoard.pieces.reduce((results, piece) => {
         if (piece.samePiecePosition(promotionPawn)) {
-          results.push(new Piece(piece.position.clone(), pieceType, piece.team));
+          results.push(new Piece(piece.position.clone(), pieceType, piece.team, true));
         } else {
           results.push(piece);
         }
@@ -167,11 +156,18 @@ export default function Referee() {
     return promotionPawn?.team === TeamType.OUR ? "w" : "b";
   };
 
+  let restartTheGame = () => {
+    checkmateModalReferee.current?.classList.add("hidden");
+    setBoard(initialBoard.clone());
+  };
+
   return (
     <>
-      <p style={{ color: "dark", fontSize: "24px" }}>{board.totalTurns}</p>
-      <div id="pawn-promotion" className="hidden" ref={modalReferee}>
-        <div className="modal">
+      <p style={{ color: "white", fontSize: "22px", textAlign: "center", fontWeight: "bold" }}>
+        Now is {board.totalTurns % 2 !== 0 ? "White" : "Black"} turn
+      </p>
+      <div className="modal hidden" ref={modalReferee}>
+        <div className="modal-body">
           <h1>Select one</h1>
           <img
             onClick={() => promotePawn(ChessPieceType.ROOK)}
@@ -193,6 +189,14 @@ export default function Referee() {
             src={`/assets/images/queen_${promotionTeamType()}.png`}
             alt=""
           />
+        </div>
+      </div>
+      <div className="modal hidden" ref={checkmateModalReferee}>
+        <div className="modal-body">
+          <div className="checkmate-body">
+            <span>The winning team is {board.winningTeam === TeamType.OUR ? "white" : "black"} !! </span>
+            <button onClick={restartTheGame}>Play again</button>
+          </div>
         </div>
       </div>
       <Chessboard playMove={playMove} pieces={board.pieces} />
