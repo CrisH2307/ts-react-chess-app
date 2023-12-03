@@ -1,6 +1,6 @@
 # Introduction of the Project
 
-Made by: Cris Huynh <br>
+Author: Cris Huynh <br>
 Programming Languages: JavaScript, HTML, React, TypeScript <br>
 Date of Start: April 5th, 2023 <br>
 Date of Finish: November 29th, 2023 <br>
