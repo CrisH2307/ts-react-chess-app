@@ -1,7 +1,7 @@
 # Introduction of the Project
 
 Author: Cris Huynh <br>
-Programming Languages: JavaScript, HTML, React, TypeScript <br>
+Programming Languages: React, TypeScript <br>
 Date of Start: April 5th, 2023 <br>
 Date of Finish: November 29th, 2023 <br>
 Description: This project is based what I have been studying while I'm studying at Seneca College. Mostly my ideas came from Object-Oriented Programming in C++ and I remade it in JavaScripts.
